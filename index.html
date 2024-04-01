@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EctoFit</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="/img/logo favicom.png" type="image/x-icon">
+
+    
+    <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script>
+        function calcularIMC() {
+            const peso = parseFloat(document.getElementById("peso").value);
+            const altura = parseFloat(document.getElementById("altura").value) / 100;
+            const edad = parseInt(document.getElementById("edad").value);
+            const sexo = document.getElementById("sexo").value;
+            const actividad = document.getElementById("actividad").value;
+            const numero300 = 18.5;
+
+            let tasaMetabolica = 0;  
+
+            const imc = peso / (altura * altura);
+
+            let resulta = imc.toFixed(2);
+
+
+            if (resulta >= 18.50 && resulta <= 24.99) {
+                resulta = `<p>Tu índice de masa corporal es: ${imc.toFixed(2)} (peso normal)</p>`;
+            } else if (resulta < 16) {
+                resulta = `<p>Tu índice de masa corporal es: ${imc.toFixed(2)} (delgadez severa)</p>`;
+            } else if (resulta > 16 && resulta <= 16.99) {
+                resulta = `<p>Tu índice de masa corporal es: ${imc.toFixed(2)} (delgadez moderada)</p>`;
+            } else if (resulta >= 17 && resulta <= 18.49) {
+                resulta = `<p>Tu índice de masa corporal es: ${imc.toFixed(2)} (delgadez aceptable)</p>`;
+            } else if (resulta >= 25 && resulta <= 29.99) {
+                resulta = `<p>Tu índice de masa corporal es: ${imc.toFixed(2)} (sobre peso)</p>`;
+            } else if (resulta >= 30 && resulta <= 34.99) {
+                resulta = `<p>Tu índice de masa corporal es: ${imc.toFixed(2)} (obesidad tipo 1)</p>`;
+            } else if (resulta >= 35 && resulta <= 40) {
+                resulta = `<p>Tu índice de masa corporal es: ${imc.toFixed(2)} (obesidad tipo 2)</p>`;
+            } else if (resulta > 40 && resulta <= 49.99) {
+                resulta = `<p>Tu índice de masa corporal es: ${imc.toFixed(2)} (obesidad mórbida)</p>`;
+            } else if (resulta > 50) {
+                resulta = `<p>Tu índice de masa corporal es: ${imc.toFixed(2)} (obesidad extrema)</p>`;
+            }
+
+
+
+            if (sexo === "hombre") {
+                tasaMetabolica = 88.362 + (13.397 * peso) + (4.799 * altura * 100) - (5.677 * edad);
+            } else if (sexo === "mujer") {
+                tasaMetabolica = 447.593 + (9.247 * peso) + (3.098 * altura * 100) - (4.330 * edad);
+                 
+            }
+
+            let factorActividad = 0;
+            switch (actividad) {
+                case "sedentario":
+                    factorActividad = 1.2;
+                    break;
+                case "ligera":
+                    factorActividad = 1.375;
+                    break;
+                case "moderada":
+                    factorActividad = 1.55;
+                    break;
+                case "intensa":
+                    factorActividad = 1.725;
+                    break;
+            }
+
+            const caloriasDiarias = tasaMetabolica * factorActividad;
+            const caloriasDiariasSubirMax = (tasaMetabolica * factorActividad) + 500;
+            const caloriasDiariasSubirMIn = (tasaMetabolica * factorActividad) + 250;
+
+            resultado = `<p>Calorías diarias recomendadas para mantener peso:  ${caloriasDiarias.toFixed(0)} kcal/día</p>`;
+            resultado += `<p>Calorías diarias recomendadas para aumentar peso: ${caloriasDiariasSubirMIn.toFixed(0)} a ${caloriasDiariasSubirMax.toFixed(0)} kcal/día</p>`;
+
+
+
+            document.getElementById("resultado").innerHTML = resultado;
+            document.getElementById("resulta").innerHTML = resulta;
+        }
+
+    </script>
+
+</head>
+
+<body>
+    <header>
+        <div id="logo">
+            <img src="img/logo ECTOFIT WHITEMesa de trabajo 2.png" alt="">
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="#calculadora">Inicio</a></li>
+                <li><a href="#recetas">Recetas</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <section id="consejos">
+        <div class="slider-frame">
+            <ul>
+                <li><img src="img/consejo 1.0.jpg" alt=""></li>
+                <li><img src="img/consejo 2.jpg" alt=""></li>
+                <li><img src="img/consejo 3.jpg" alt=""></li>
+                <li><img src="img/consejo 4.jpg" alt=""></li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="calculadora">
+        <h2>Calculadora de IMC y Calorías Diarias</h2>
+        <p>Ingresa tus datos a continuación para calcular tu IMC y las calorías diarias recomendadas.</p>
+        <form id="calculo-form">
+            <label for="peso">Peso (kg):</label>
+            <input type="number" id="peso" name="peso" required>
+            <label for="altura">Altura (cm):</label>
+            <input type="number" id="altura" name="altura" required>
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" required>
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" name="sexo">
+                <option value="hombre">Hombre</option>
+                <option value="mujer">Mujer</option>
+            </select>
+            <label for="actividad">Nivel de actividad:</label>
+            <select id="actividad" name="actividad">
+                <option value="sedentario">Sedentario</option>
+                <option value="ligera">Ligera (ejercicio ligero o caminar)</option>
+                <option value="moderada">Moderada (ejercicio moderado o deportes 3-5 veces a la semana)</option>
+                <option value="intensa">Intensa (ejercicio intenso o deportes 6-7 veces a la semana)</option>
+            </select>
+            <button type="button" onclick="calcularIMC()">Calcular</button>
+        </form>
+        <div id="resulta"></div>
+        <div id="resultado"></div>
+
+    </section>
+
+
+    <section id="informacion">
+        <h2>¿Qué es una persona ectomorfa?</h2>
+        <p>Las personas ectomorfas presentan una constitución física que se caracteriza por rasgos específicos, como una
+            estructura esquelética delgada, extremidades alargadas y una tendencia a tener una baja acumulación de grasa
+            corporal. Una persona con este tipo de cuerpo tiene una predisposición genética a la delgadez. Es decir, le
+            resulta complicado ganar masa muscular. No obstante, mediante un plan de entrenamiento intensivo, combinado
+            con una dieta saludable, una mujer o un hombre ectomorfo pueden incrementar su masa muscular progresivamente.
+        </p>
+
+        <img src="img/cuerpo esctomorfo.jpg" alt="">
+    </section>
+
+    <section id="recetas">
+        <h2 class="h2Arriba">Recetas</h2>
+        <p>Explora recetas deliciosas y saludables que te ayudarán a aumentar tu ingesta calórica.</p>
+
+
+
+        <!--DESAYUNOS-->
+
+        <div class="divTitulosCatCard">
+            <h2 class="titulosCategoriaCard">Desayunos</h2>
+        </div>
+
+        <div class="contentCardRecetas">
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/desayuno 1.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Tortilla de Huevos con Papa y Aguacate:</h3>
+                    <p>
+                        3 huevos (150g) <br>
+                        1 papa mediana (150g) <br>
+                        1/2 aguacate (100g) <br>
+                        50g de queso fresco <br>
+                        1 cucharada de aceite de oliva (15ml) <br> <br>
+                        Calorías aproximadas: 700 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/desayuno 2.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Yogur con Frutas, Granola y Miel:</h3>
+                    <p>
+                        1 taza de yogur natural (240g) <br>
+                        1 taza de fresas y banano (200g) <br>
+                        3 cucharadas de granola (30g) <br>
+                        2 cucharadas de miel (30ml) <br>
+                        1/4 taza de almendras (30g) <br> <br>
+                        Calorías aproximadas: 600 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/desayuno 3.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Arepa con Huevos Revueltos y Aguacate:</h3>
+                    <p>
+                        2 arepas (150g) <br>
+                        3 huevos (150g) <br>
+                        1/2 aguacate (100g) <br>
+                        50g de queso fresco <br>
+                        Sal y pimienta al gusto <br> <br>
+                        Calorías aproximadas: 800 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/desayuno 4.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Huevos revueltos y pan tajado:</h3>
+                    <p>
+                        Dos rodajas de pan tajado <br>
+                        3 huevos (150gr) <br> <br>
+                        Calorías aproximadas: 429 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--ALMUERZOS-->
+        <div class="divTitulosCatCard">
+            <h2 class="titulosCategoriaCard">Almuerzos</h2>
+        </div>
+
+        <div class="contentCardRecetas">
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/almuerzo 1.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Pollo al Horno con Arroz, Frijoles y Aguacate:</h3>
+                    <p>
+                        200g de pechuga de pollo <br>
+                        1 taza de arroz integral cocido (185g) <br>
+                        1 taza de frijoles negros cocidos (200g) <br>
+                        1/2 aguacate (100g) <br>
+                        Ensalada de repollo y zanahoria <br> <br>
+                        Calorías aproximadas: 850 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/almuerzo 2.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Ensalada de Atún con Arroz, Aguacate y Huevo:</h3>
+                    <p>
+                        1 lata de atún en agua (150g) <br>
+                        1 taza de arroz blanco cocido (185g) <br>
+                        1/2 aguacate (100g) <br>
+                        2 huevos cocidos (100g) <br>
+                        Tomate y cebolla picada <br>
+                        Aceite de oliva<br> <br>
+                        Calorías aproximadas: 800 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/almuerzo 3.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Arroz con Pollo, Verduras y Huevo Frito:</h3>
+                    <p>
+                        1 taza de arroz blanco cocido (185g) <br>
+                        150g de pechuga de pollo <br>
+                        Verduras salteadas (zanahorias, guisantes, maíz) <br>
+                        1 huevo frito (50g) <br>
+                        Ensalada de lechuga y tomate <br> <br>
+                        Calorías aproximadas: 900 kcal
+                    </p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/almuerzo 4.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Sopa de Lentejas con Arroz y Aguacate:</h3>
+                    <p>
+                        1 taza de lentejas cocidas (200g) <br>
+                        1 taza de arroz blanco cocido (185g) <br>
+                        Verduras <br>
+                        Caldo de pollo o vegetal <br>
+                        1 cucharada de aceite de oliva (15ml) <br>
+                        1/2 aguacate (100g) <br> <br>
+                        Calorías aproximadas: 800 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--MERIENDAS-->
+        <div class="divTitulosCatCard">
+            <h2 class="titulosCategoriaCard">Meriendas</h2>
+        </div>
+
+        <div class="contentCardRecetas">
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/merienda 1.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Batido de Proteínas, Frutas y Avena:</h3>
+                    <p>
+                        1 taza de leche de almendra (240ml) <br>
+                        1 plátano (120g) <br>
+                        1/2 taza de frutas mixtas (80g) <br>
+                        1 cucharada de proteína en polvo (15g) <br>
+                        3 cucharadas de mantequilla de cacahuate (45g) <br> <br>
+                        Calorías aproximadas: 700 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/merienda 2.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Batido de banano y avena:</h3>
+                    <p>
+                        300ml de leche <br>
+                        2 bananos (150g) <br>
+                        Avena en ojuelas (70g) <br>
+                        crema de maní (40g) <br> <br>
+                        Calorías aproximadas: 945 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/merienda 3.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Avena con frutas:</h3>
+                    <p>
+                        Avena en ojuelas (120g) <br>
+                        200ml de leche <br>
+                        frutas <br>
+                        Canela en polvo <br>
+                        una cucharada de miel<br> <br>
+                        Calorías aproximadas: 530 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/merienda 4.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Hotcakes con proteína:</h3>
+                    <p>
+                        1/4 taza de leche (60ml) <br>
+                        1 plátano (120g) <br>
+                        avena en ojuelas (80g) <br>
+                        3 huevos (150g)
+                        1 cucharada de proteína en polvo (15g) <br> <br>
+                        Calorías aproximadas: 456 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--CENAS-->
+        <div class="divTitulosCatCard">
+            <h2 class="titulosCategoriaCard">Cenas</h2>
+        </div>
+        <div class="contentCardRecetas">
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/cena 1.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Salmón al horno con arroz, habichuela y aguacate:</h3>
+                    <p>
+                        150g de filete de salmón <br>
+                        1 taza de arroz integral cocido (185g) <br>
+                        Habichuelas al vapor <br>
+                        1/2 aguacate (100g) <br>
+                        Limón y hierbas para sazonar <br> <br>
+                        Calorías aproximadas: 900 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/cena 2.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Arroz con ensalada de garbanzos, aguacate y queso:</h3>
+                    <p>
+                        garbanzos cocidos (200g) <br>
+                        1 taza de arroz blanco cocido (185g) <br>
+                        1 aguacate (200g) <br>
+                        50g de queso <br>
+                        Tomate y pepino <br>
+                        Aceite de oliva <br> <br>
+                        Calorías aproximadas: 800 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/cena 3.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Tacos de Pollo con Guacamole y Frijoles:</h3>
+                    <p>
+                        200g de pollo desmenuzado <br>
+                        Tortillas de maíz <br>
+                        Guacamole <br>
+                        Frijoles negros refritos (200g) <br>
+                        Lechuga rallada <br>
+                        Queso fresco <br> <br>
+                        Calorías aproximadas: 900 kcal</p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cardRecetas">
+                <div class="face front">
+                    <img src="./img/cena 4.jpg" alt="">
+
+                </div>
+                <div class="face back">
+                    <h3>Cerdo al horno con lenteja y verduras:</h3>
+                    <p>
+                        200g de carne de cerdo <br>
+                        1/2 taza de lentejas crudas (90g) <br>
+                        Zanahorias(100g) <br>
+                        1 cucharada de aceite de oliva (15ml) <br>
+                        Sal, pimienta al gusto <br> <br>
+                        Calorías Aproximadas: 800 kcal
+                    </p>
+                    <div class="link">
+                        <a href="#">Detalles</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <section id="nosotros">
+
+
+        <h2>Nosotros</h2>
+
+        <p>Bienvenido a EctoFit, tu compañero de confianza en el viaje hacia una transformación saludable. Nosotros, en
+            EctoFit, nos apasiona proporcionar a las personas ectomorfas las herramientas y el apoyo necesarios para
+            alcanzar sus metas de ganancia de peso y masa muscular de manera equilibrada y sostenible. <br> <br> <br>
+
+            <span class="spanNosotros">Nuestra Misión: </span> <br> <br>
+
+            En el corazón de EctoFit está una misión clara: inspirar y guiar a las personas ectomorfas en su búsqueda de
+            un estilo de vida saludable. Nos esforzamos por ser el faro que ilumina el camino hacia el bienestar,
+            ofreciendo información precisa, planes de alimentación personalizados, recetas deliciosas y una comunidad de
+            apoyo comprometida. <br> <br> <br>
+
+            <span class="spanNosotros">Únete a nosotros en tu viaje: </span> <br> <br>
+
+            Ya sea que estés dando los primeros pasos en tu viaje de ganancia de peso o buscando un nuevo enfoque,
+            EctoFit está aquí para ti. Únete y descubre el apoyo, la información y la inspiración que necesitas para
+            lograr una transformación saludable y sostenible. ¡Te damos la bienvenida a tu cambio físico!
+        </p>
+
+        <div class="contenCard">
+            <div class="card">
+                <div class="content">
+                    <span></span>
+                    <div class="img">
+                        <img src="./img/jean.jpg" alt="">
+                    </div>
+                    <h4>Jean Yerena</h4>
+                    <h6>Ingeniero Multimedia</h6>
+                    <p>Desarrollador frontend junior apasionado por crear experiencias digitales atractivas y
+                        accesibles. Siempre he tenido una gran curiosidad por la tecnología y el diseño.</p>
+                </div>
+                <div class="links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="content">
+                    <span></span>
+                    <div class="img">
+                        <img src="./img/omar.jpg" alt="">
+                    </div>
+                    <h4>Omar Medina</h4>
+                    <h6>Ingeniero Multimedia</h6>
+                    <p>Mi enfoque se centra en la integración de diversos elementos multimedia para crear experiencias
+                        visuales y auditivas impactantes.</p>
+                </div>
+                <div class="links">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <section id="contacto">
+
+        <div class="container-form">
+            <div class="info-form">
+                <h2>Contáctanos</h2>
+                <p>¿Necesitas ayuda o tienes alguna pregunta? Contáctanos a través de los siguientes medios o a través
+                    del formulario:</p>
+                <a href="#"><i class="fa fa-phone"></i> +57 3117286711</a>
+                <a href="#"><i class="fa fa-envelope"></i> ectofit@gmail.com</a>
+                <a href="#"><i class="fa fa-map-marked"></i> Cartagena, Colombia</a>
+            </div>
+            <form action="#" autocomplete="off">
+                <input type="text" name="nombre" placeholder="Tu Nombre" class="campo">
+                <input type="emal" name="email" placeholder="Tu Email" class="campo">
+                <textarea name="mensaje" placeholder="Tu Mensaje..."></textarea>
+                <input type="submit" name="enviar" value="Enviar Mensaje" class="btn-enviar">
+            </form>
+        </div>
+    </section>
+
+    <!--Pie de Pagina-->
+    <footer class="pie-pagina">
+        <div class="grupo-1">
+            <div class="box">
+                <figure>
+                    <a href="#">
+                        <img src="img/logo ECTOFIT WHITEMesa de trabajo 2.png" alt="Logo EctoFit">
+                    </a>
+                </figure>
+
+            </div>
+            <div class="box">
+                <h2>SOBRE NOSOTROS</h2>
+                <p>Somos un equipo comprometido con el bienestar de las personas ectomorfas que buscan ganar peso de
+                    manera saludable y sostenible.</p>
+                <p>Nuestra misión es inspirar y guiar a las personas ectomorfas en su búsqueda de un estilo de vida
+                    saludable.</p>
+            </div>
+            <div class="box">
+                <h2>SIGUENOS</h2>
+                <div class="red-social">
+                    <a href="#" class="fa fa-facebook"></a>
+                    <a href="#" class="fa fa-instagram"></a>
+                    <a href="#" class="fa fa-twitter"></a>
+                    <a href="#" class="fa fa-youtube"></a>
+                </div>
+            </div>
+        </div>
+        <div class="grupo-2">
+            <small>&copy; 2024 <b>EctoFit</b> - Todos los Derechos Reservados.</small>
+        </div>
+    </footer>
+
+
+
+</body>
+
+</html>
